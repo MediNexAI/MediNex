@@ -1,0 +1,126 @@
+{
+  "api": {
+    "host": "localhost",
+    "port": 8000,
+    "cors_origins": ["*"],
+    "log_level": "debug",
+    "max_request_size": 10485760,
+    "timeout": 60,
+    "rate_limit": {
+      "enabled": false,
+      "requests_per_minute": 120
+    },
+    "auth": {
+      "enabled": false,
+      "api_key_header": "X-API-Key"
+    }
+  },
+  "llm": {
+    "provider": "openai",
+    "model": "gpt-4",
+    "temperature": 0.7,
+    "max_tokens": 2000,
+    "top_p": 1.0,
+    "frequency_penalty": 0.0,
+    "presence_penalty": 0.0,
+    "alternative_providers": {
+      "anthropic": {
+        "model": "claude-3-opus-20240229",
+        "temperature": 0.7,
+        "max_tokens": 2048
+      },
+      "huggingface": {
+        "model": "meta-llama/Llama-2-70b-chat-hf",
+        "temperature": 0.7,
+        "max_tokens": 2048
+      },
+      "local": {
+        "model_path": "./models/local_model",
+        "temperature": 0.7,
+        "max_tokens": 2048
+      }
+    }
+  },
+  "knowledge_base": {
+    "storage_path": "./data/knowledge",
+    "chunk_size": 500,
+    "chunk_overlap": 50,
+    "embedding_model": "text-embedding-3-small",
+    "vector_store": "faiss",
+    "similarity_top_k": 5,
+    "document_limit": 10000,
+    "metadata_fields": [
+      "title",
+      "source",
+      "author",
+      "date",
+      "category",
+      "specialty"
+    ]
+  },
+  "imaging": {
+    "models_dir": "./models/imaging",
+    "cache_dir": "./cache/imaging",
+    "max_image_size": 1024,
+    "supported_formats": ["jpg", "jpeg", "png", "dicom"],
+    "segmentation_enabled": true,
+    "detection_confidence": 0.5,
+    "enhance_visualization": true,
+    "default_model": "general-purpose"
+  },
+  "logging": {
+    "level": "debug",
+    "file": "./logs/medinex.log",
+    "max_size": 10485760,
+    "backup_count": 5,
+    "console": true
+  },
+  "data_import": {
+    "batch_size": 50,
+    "supported_formats": {
+      "text": [".txt", ".md"],
+      "structured": [".csv", ".json", ".jsonl"],
+      "medical": [".pdf", ".dicom"]
+    },
+    "pubmed_email": "medinex@medinex.life"
+  },
+  "contributors": {
+    "storage_path": "./data/contributors",
+    "default_active": true,
+    "contribution_types": [
+      "data", 
+      "code", 
+      "model_training", 
+      "review", 
+      "testing", 
+      "documentation"
+    ]
+  },
+  "revenue": {
+    "storage_path": "./data/revenue",
+    "default_currency": "USD",
+    "default_weights": {
+      "data": 0.3,
+      "code": 0.2,
+      "model_training": 0.3,
+      "review": 0.1,
+      "testing": 0.05,
+      "documentation": 0.05
+    }
+  },
+  "distribution": {
+    "storage_path": "./data/models",
+    "deployment_timeout_minutes": 10,
+    "allow_anonymous_downloads": true,
+    "license_types": [
+      "standard",
+      "academic",
+      "commercial",
+      "evaluation"
+    ]
+  },
+  "pubmed_api": {
+    "api_key": "",
+    "pubmed_email": "medinex@medinex.life"
+  }
+} 

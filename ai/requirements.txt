@@ -1,0 +1,71 @@
+# MediNex AI Core Requirements
+
+# LLM Providers
+openai>=1.16.0
+anthropic>=0.20.0
+transformers>=4.40.0
+torch>=2.2.0
+langchain>=0.1.11
+
+# Data Processing
+numpy>=1.26.4
+pandas>=2.2.1
+scikit-learn>=1.4.1
+
+# Image Processing
+pillow>=11.0.0
+matplotlib>=3.9.0
+opencv-python>=4.9.0.0
+
+# Utilities
+requests>=2.31.0
+tqdm>=4.66.2
+python-dotenv>=1.0.1
+pydantic>=2.6.3
+
+# Testing
+pytest>=8.0.0
+
+# Core ML Libraries
+tensorflow==2.13.0
+torchvision==0.15.2
+scikit-learn==1.2.2
+opencv-python==4.8.0.74
+pillow==10.0.0
+numpy==1.24.3
+pandas==2.0.3
+matplotlib==3.7.2
+seaborn==0.12.2
+
+# Medical Imaging
+pydicom==2.4.2
+nibabel==5.1.0
+SimpleITK==2.2.1
+monai==1.2.0
+
+# Model Evaluation
+scikit-image==0.21.0
+pycocotools==2.0.6
+
+# Serialization & Integration
+protobuf==4.23.4
+onnx==1.14.0
+onnxruntime==1.15.1
+tensorflowjs==4.10.0
+
+# Blockchain Integration
+solana==0.29.2
+web3py==6.5.0
+anchor-py==0.3.0
+
+# API & Web
+fastapi==0.100.0
+uvicorn==0.23.1
+pyjwt==2.8.0
+
+# Utilities
+pytest==7.4.0
+mypy==1.4.1
+black==23.7.0
+isort==5.12.0
+pylint==2.17.4 

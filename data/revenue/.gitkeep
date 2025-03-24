@@ -1,0 +1,3 @@
+# This file ensures the data/revenue directory is included in git
+# This directory is used to store revenue sharing data
+# Individual data files should be ignored by git 

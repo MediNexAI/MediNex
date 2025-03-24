@@ -1,0 +1,102 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./apps/frontend
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./apps/frontend:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - REACT_APP_API_URL=http://localhost:4000/api
+      - REACT_APP_SOLANA_NETWORK=devnet
+    depends_on:
+      - backend
+    networks:
+      - medinex-network
+
+  backend:
+    build:
+      context: ./apps/backend
+      dockerfile: Dockerfile.dev
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./apps/backend:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - PORT=4000
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/medinex
+      - SOLANA_RPC_URL=https://api.devnet.solana.com
+      - JWT_SECRET=development_jwt_secret
+      - IPFS_API_URL=http://ipfs:5001
+    depends_on:
+      - postgres
+      - ipfs
+    networks:
+      - medinex-network
+
+  ai:
+    build:
+      context: ./ai
+      dockerfile: Dockerfile.dev
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./ai:/app
+    environment:
+      - PYTHONUNBUFFERED=1
+      - MODEL_PATH=/app/models
+      - API_PORT=5000
+    depends_on:
+      - backend
+    networks:
+      - medinex-network
+
+  postgres:
+    image: postgres:14
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=medinex
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - medinex-network
+
+  ipfs:
+    image: ipfs/go-ipfs:v0.14.0
+    ports:
+      - "5001:5001"
+      - "8080:8080"
+    volumes:
+      - ipfs-data:/data/ipfs
+    networks:
+      - medinex-network
+
+  solana-validator:
+    image: solanalabs/solana:v1.16.0
+    ports:
+      - "8899:8899"
+      - "8900:8900"
+    command: solana-test-validator
+    volumes:
+      - solana-test-ledger:/root/.local/share/solana/test-ledger
+    networks:
+      - medinex-network
+
+networks:
+  medinex-network:
+    driver: bridge
+
+volumes:
+  postgres-data:
+  ipfs-data:
+  solana-test-ledger: 

@@ -1,0 +1,130 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Distribution / packaging
+.env
+.env.*
+!.env.example
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Testing
+.coverage
+htmlcov/
+.pytest_cache/
+.tox/
+nosetests.xml
+coverage.xml
+*.cover
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Project specific
+data/knowledge/*
+!data/knowledge/.gitkeep
+models/*
+!models/.gitkeep
+!models/imaging/.gitkeep
+!models/local_model/.gitkeep
+cache/*
+!cache/.gitkeep
+logs/*
+!logs/.gitkeep
+data/tmp/*
+!data/tmp/.gitkeep
+
+# LLM API keys and secrets
+openai_api_key.txt
+anthropic_api_key.txt
+huggingface_api_key.txt
+
+# Large files
+*.h5
+*.ckpt
+*.bin
+*.pt
+*.pth
+*.model
+*.joblib
+*.pkl
+*.vectorstore
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# macOS
+.DS_Store
+
+# Project specific
+/data/knowledge/*
+!/data/knowledge/.gitkeep
+/data/contributors/*
+!/data/contributors/.gitkeep
+/data/revenue/*
+!/data/revenue/.gitkeep
+/data/models/versions/*
+!/data/models/versions/.gitkeep
+/data/models/packages/*
+!/data/models/packages/.gitkeep
+/data/models/deployments/*
+!/data/models/deployments/.gitkeep
+/data/tmp/*
+!/data/tmp/.gitkeep
+/cache/*
+!/cache/.gitkeep
+/logs/*
+!/logs/.gitkeep
+/models/imaging/*
+!/models/imaging/.gitkeep 
