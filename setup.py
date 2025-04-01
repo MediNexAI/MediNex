@@ -24,11 +24,11 @@ with open("README.md", "r") as f:
     long_description = f.read()
 
 setup(
-    name="medinex-ai",
-    version=version,
+    name="medinex.life",
+    version="1.0.2",
     author="MediNex AI Team",
     author_email="info@medinex.life",
-    description="Medical knowledge assistant with LLM integration and imaging analysis",
+    description="Advanced Medical Knowledge Assistant",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/MediNexAI/MediNex",

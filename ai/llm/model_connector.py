@@ -130,7 +130,7 @@ class MedicalLLMConnector:
         self.provider = config.get("provider", "openai").lower()
         self.model = config.get("model")
         self.temperature = config.get("temperature", 0.1)
-        self.api_key = config.get("api_key")
+        self.api_key = config.get("api_key") or os.getenv(f"{self.provider.upper()}_API_KEY")
         
         # Validate provider
         if self.provider not in self.SUPPORTED_PROVIDERS:
@@ -139,13 +139,6 @@ class MedicalLLMConnector:
                 f"Supported providers: {', '.join(self.SUPPORTED_PROVIDERS)}"
             )
         
-        # Get API key from environment if not provided in config
-        if self.api_key is None:
-            if self.provider == "openai":
-                self.api_key = os.environ.get("OPENAI_API_KEY")
-            elif self.provider == "anthropic":
-                self.api_key = os.environ.get("ANTHROPIC_API_KEY")
-        
         # For API-based providers, verify API key
         if self.provider in ["openai", "anthropic"] and not self.api_key:
             raise APIKeyError(f"API key is required for {self.provider}")
@@ -153,6 +146,11 @@ class MedicalLLMConnector:
         # Initialize client to None
         self.client = None
         self.logger = logging.getLogger(__name__)
+        self.is_connected = False
+        
+        # Medical context template
+        self.medical_context = """You are an AI medical assistant. Provide accurate, 
+        evidence-based medical information. If unsure, acknowledge limitations."""
     
     def connect(self):
         """Connect to the specified LLM provider."""
@@ -173,6 +171,7 @@ class MedicalLLMConnector:
             elif self.provider == "local":
                 self.client = load_local_model(self.model)
             
+            self.is_connected = True
             self.logger.info(f"Successfully connected to {self.provider} provider")
             
         except Exception as e:
@@ -189,14 +188,17 @@ class MedicalLLMConnector:
         Returns:
             Generated text response
         """
-        if not self.client:
-            raise ModelConnectionError("Not connected to any LLM provider. Call connect() first.")
+        if not self.is_connected:
+            self.connect()
         
         try:
             if self.provider == "openai":
                 response = self.client.chat.completions.create(
                     model=self.model,
-                    messages=[{"role": "user", "content": prompt}],
+                    messages=[
+                        {"role": "system", "content": self.medical_context},
+                        {"role": "user", "content": prompt}
+                    ],
                     temperature=self.temperature
                 )
                 return response.choices[0].message.content
@@ -204,10 +206,12 @@ class MedicalLLMConnector:
             elif self.provider == "anthropic":
                 response = self.client.messages.create(
                     model=self.model,
-                    messages=[{"role": "user", "content": prompt}],
-                    temperature=self.temperature
+                    max_tokens=1024,
+                    temperature=self.temperature,
+                    system=self.medical_context,
+                    messages=[{"role": "user", "content": prompt}]
                 )
-                return response.content
+                return response.content[0].text
             
             elif self.provider in ["huggingface", "local"]:
                 # Direct generation for HuggingFace and local models
@@ -783,4 +787,40 @@ class MedicalLLMConnector:
         }
         
         # Return default if model not in known list
-        return context_sizes.get(model_name, 4096) 
+        return context_sizes.get(model_name, 4096)
+
+    def analyze_medical_text(self, text: str) -> Dict[str, Any]:
+        """
+        Analyze medical text for key information.
+        
+        Args:
+            text: Medical text to analyze
+            
+        Returns:
+            Dictionary containing analysis results
+        """
+        analysis_prompt = f"""Analyze the following medical text and extract key information:
+
+{text}
+
+Please provide:
+1. Key medical terms and their definitions
+2. Main medical concepts discussed
+3. Any mentioned conditions or symptoms
+4. Treatment options if discussed
+5. Risk factors if mentioned
+6. Recommendations if any
+
+Format the response as a JSON object."""
+
+        response = self.generate_text(analysis_prompt)
+        
+        try:
+            # Extract JSON from response
+            start_idx = response.find("{")
+            end_idx = response.rfind("}") + 1
+            json_str = response[start_idx:end_idx]
+            return json.loads(json_str)
+        except:
+            logger.warning("Failed to parse JSON response")
+            return {"error": "Failed to parse response", "raw_text": response} 

@@ -1,6 +1,11 @@
 # MediNex AI - Advanced Medical Knowledge Assistant
 
 <div align="center">
+  <a href="https://www.medinex.life/"><img src="https://img.shields.io/badge/🌐_Website-MediNex.life-blue?style=for-the-badge" alt="Website"></a>
+  <a href="https://twitter.com/MediNexAI"><img src="https://img.shields.io/badge/Twitter-%40MediNexAI-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white" alt="Twitter"></a>
+</div>
+
+<div align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="assets/logos/medinex_logo.svg" width="300">
     <source media="(prefers-color-scheme: light)" srcset="assets/logos/medinex_logo.svg" width="300">
@@ -369,8 +374,8 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## [CONTACT] Contact
 
-- Website: [medinex.life](http://medinex.life/)
-- Twitter: [MediNex_AI](https://x.com/MediNex_AI)
+- Website: [medinex.life](https://www.medinex.life/)
+- Twitter: [@MediNexAI](https://x.com/MediNexAI)
 - GitHub: [MediNexAI/MediNex](https://github.com/MediNexAI/MediNex)
 - Email: info@medinex.life
 
